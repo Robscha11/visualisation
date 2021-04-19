@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/index.css" />
+    <title>Exercise 2</title>
+</head>
+
+<body>
+    <main>
+        <h1><a href="/">Visualization Lab Class</a></h1>
+        <h2>Exercise 2</h2>
+
+        <section>
+            <h3>Load Data, Filter, and Format</h3>
+            <p>
+                Throughout the exercises we'll work with a movies dataset that is loaded from the
+                <abbr title="comma-separated values">CSV</abbr> file
+                <a href="/data/movies.csv"><span class="monospace">movies.csv</span></a>.
+                Take a look at the file
+                <span class="monospace">movies.js</span>
+                in this folder to see how the data is read from the CSV.
+                The result is an array of movie-objects with the attributes in the CSV which is also printed to the
+                console.
+                Since all attributes are treated as a string by default, the numerical attributes are converted to
+                numbers and the release date is converted to JavaScript's
+                <span class="monospace">Date</span>-type.
+            </p>
+
+            <div class="task">
+                <h3>Task 1: Attribute Types (10%)</h3>
+                <p>
+                    Determine the attribute type (<i>categorical, ordinal, quantitative</i>) of the following attributes
+                    from the movies dataset (or computed from it for <i>profit</i>) and also give the ordering direction
+                    for ordered attributes.
+                    Sometimes there is more than a single correct answer.
+                    Give a short explanation for your choice in each case.
+                    Write your answer into the markdown-file
+                    <span class="monospace">task1.md</span>
+                    in this folder and the output will be shown below.
+                </p>
+
+                <div id="task1"></div>
+            </div>
+
+            <p>
+                Browsing the movies-array on the console is not very user-friendly and makes it hard to quickly grasp
+                the attributes.
+                Let's take a look at a subset of movies by displaying a few selected attributes in a table.
+                The file
+                <span class="monospace">table.js</span>
+                provides a function to create a table using d3.
+                The table is already better readable but we can still improve readability by formatting some attributes
+                and perception by adding color encoding.
+            </p>
+
+            <table id="movies"></table>
+
+            <div class="task">
+                <h3>Task 2: Formatting and Color (25%)</h3>
+                <p>
+                    As of now, the table shows the last ten movies from the data.
+                    Go to the
+                    <span class="monospace">main.js</span>
+                    and instead pass the ten top-rated movies of all movies with more than 150,000 votes in descending
+                    order to the table function.
+                </p>
+                <p>
+                    Improve the formatting of each movie's runtime, rating, and number of votes by using
+                    <a href="https://github.com/d3/d3-format">d3-format</a>.
+                    Display the runtime (length) in hours and minutes, for example
+                    <span class="monospace">1:46</span> instead of <span class="monospace">106</span>.
+                </p>
+                <p>
+                    Setup <a href="https://github.com/d3/d3-scale-chromatic">color scales</a> for the length, rating,
+                    number of votes, and genres.
+                    Keep the attribute types in mind and choose fitting color schemes.
+                </p>
+            </div>
+        </section>
+
+        <section>
+            <h3>Aggregate</h3>
+            <p>
+                Aggregation is a reduction strategy that helps to handle complex datasets by grouping the data and
+                deriving new values such as an average or a count.
+                You've seen in the lecture and the first assignment that aggregation can be problematic in some cases
+                but it's a powerful and important method for visualizing data that is too complex to visualize directly.
+            </p>
+            <p>
+                Histograms visualize the approximate distribution of data by binning (or bucketing) ordered data values
+                into (usually) equally sized bins.
+                D3 provides
+                <a href="https://github.com/d3/d3-array#bin">d3.bin</a>
+                for exactly this purpose.
+            </p>
+
+            <div class="task">
+                <h3>Task 3: Binning (15%)</h3>
+                <p>
+                    Use d3.bin to perform the binning of the movies data in the
+                    <span class="monospace">histogram.js</span>.
+                    Add all ordered attributes to the selection combobox to allow the selection of the attribute that is
+                    binned and visualized with the histogram.
+                </p>
+                <p>
+                    Setup the
+                    <span class="monospace">tickFormat</span>
+                    function to format the tick labels on the x-axis.
+                    Choose a format function that fits the respective attribute.
+                </p>
+
+                <p>
+                    Hint: Dates require some special treatment, see also
+                    <a href="https://observablehq.com/@d3/d3-bin-time-thresholds">
+                        this observable notebook
+                    </a>.
+                </p>
+            </div>
+            <div>
+                <label for="binAttribute">Choose an attribute:</label>
+                <select id="binAttribute"></select>
+                <svg id="histogram"></svg>
+            </div>
+
+            <p>
+                In contrast, bar charts have a categorical axis.
+                Often, the original data cannot be used in a bar chart directly.
+                Instead it has to be grouped by a category in a first step which then allows to count the data items
+                or compute some other summary statistic.
+                Again, d3 provides functions for these cases, namely
+                <a href="https://github.com/d3/d3-array/blob/master/README.md#group">
+                    <span class="monospace">d3.group</span>
+                </a>
+                for grouping and
+                <a href="https://github.com/d3/d3-array/blob/master/README.md#rollup">
+                    <span class="monospace">d3.rollup</span>
+                </a>
+                which applies an additional reduce-function.
+                Have a look at the
+                <a href="https://observablehq.com/@d3/d3-group">examples</a>
+                to see how they work.
+            </p>
+
+            <div class="task">
+                <h3>Task 4: Grouping (15%)</h3>
+                <p>
+                    Use
+                    <span class="monospace">d3.rollups</span>
+                    to group the movies by original language and count the number of movies per language.
+                    Filter out any languages with less than ten movies to reduce clutter.
+                </p>
+
+                <p>
+                    Hint: The
+                    <span class="monospace">barchart</span>
+                    function expects an array of objects with the properties
+                    <span class="monospace">name</span> and <span class="monospace">value</span>.
+                    Use
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map">
+                        <span class="monospace">Array.map</span>
+                    </a>
+                    to transform the result of the rollup into this format.
+                </p>
+                <p>
+                    Hint: In this case it's easier to use
+                    <span class="monospace">d3.rollups</span>
+                    since it returns the result as an array instead of a
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map">
+                        <span class="monospace">Map</span>
+                    </a>
+                    which makes it easier to filter and sort the results afterwards.
+                </p>
+            </div>
+            <div>
+                <h4>Number of movies by original language</h4>
+                <svg id="barchart"></svg>
+            </div>
+        </section>
+
+        <section>
+            <h3>Faceting and Coordination</h3>
+            <p>
+                As you've learned in the lecture, faceting makes it easier to handle visual complexity.
+                Let's have a look at the different genres that occur in our movie dataset.
+                We'll create small multiples by juxtaposing similar views on different subsets of the data, namely all
+                movies that contain a genre.
+                An additional overview provides the context of all movies and navigation on the time axis.
+                The selected range of years is then propagated to the individual views and thereby provides coordination.
+                The file <span class="monospace">smallMultiples.js</span> creates small multiples for the genres.
+                However, you have to transform the movies data into the required data structures first.
+            </p>
+
+            <div class="task">
+                <h3>Task 5: Small Multiples (35%)</h3>
+                <p>
+                    Go to the file
+                    <span class="monospace">smallMultiples.js</span>.
+                    Populate the array
+                    <span class="monospace">genres</span>
+                    with the unique genres in the dataset.
+                    Create a map
+                    <span class="monospace">moviesPerYear</span>
+                    of all movies grouped by the release year with an object that holds the average rating of all movies
+                    in that year in the property
+                    <span class="monospace">mean</span>
+                    and the number of movies that year in the property
+                    <span class="monospace">count</span>.
+                    Create another map
+                    <span class="monospace">moviesByGenrePerYear</span>
+                    with each genre as the key
+                    and the the same structure as
+                    <span class="monospace">moviesPerYear</span>
+                    as the value but limited
+                    to the subset of movies with that respective genre.
+                </p>
+                <p>
+                    Setup the color scale <span class="monospace">color</span> that maps the movie count to a color.
+                    Choose a suitable color scheme.
+                </p>
+                <p>
+                    Hint: You can use
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getFullYear">
+                        <span class="monospace">Date.getFullYear</span>
+                    </a>
+                    to get the year of a date.
+                </p>
+                <p>
+                    Hint: Since each movies is not restricted to a single genre but has an array of genres, you cannot
+                    simply use a stacked call to d3.rollup.
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"><span
+                            class="monospace">Array.forEach</span></a> and
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/forEach"><span
+                            class="monospace">Map.forEach</span></a> can be used to iterate over the values of an array
+                    and the entries of map respectively.
+                    In fact,
+                    <span class="monospace">d3.group</span>
+                    and
+                    <span class="monospace">d3.rollup</span>
+                    iterate over the values internally to create their result as well.
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes"><span
+                            class="monospace">Array.includes</span></a> can be used to check if an array contains a
+                    specific value.
+                </p>
+            </div>
+
+            <svg id="smallMultiples"></svg>
+        </section>
+
+    </main>
+    <script type="module" src="/exercises/02/main.js"></script>
+</body>
+
+</html>

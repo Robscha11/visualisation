@@ -1,0 +1,10 @@
+- budget
+- revenue
+- profit (computed as *revenue - budget*)
+- genre
+- imdbRating
+- imdbVotes
+- originalLanguage
+- releaseDate
+- runtime
+- title
