@@ -1,10 +1,20 @@
 - budget
+    - quantitative
 - revenue
+    - quantitative
 - profit (computed as *revenue - budget*)
+    - quantitative
 - genre
+    - categorical
 - imdbRating
+    - ordinal
 - imdbVotes
+    - quantitative
 - originalLanguage
+    - categorical
 - releaseDate
+    - categorical
 - runtime
+    - ordinal
 - title
+    - categorical

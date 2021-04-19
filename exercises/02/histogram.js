@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { loadMoviesDataset } from "../movies";
 
 export function histogram({
   svg,
@@ -15,7 +16,9 @@ export function histogram({
   // TODO: Task 3
   // replace this list of dummy attributes with all ordered attributes from the
   // movies dataset
-  const binAttributes = ["🤔", "😱", "💡"];
+  console.log();
+  console.log(new Set(data.map((d) => d.loadMoviesDataset)));
+  const binAttributes = new Set(data.map((d) => d.loadMoviesDataset));
 
   // setup the combobox with all attributes
   attributeSelect
@@ -71,6 +74,11 @@ export function histogram({
     // create the actual bins of the respective attribute and replace the dummy
     // data below
     const bins = [
+      //d3.bin().thresholds(10)(hp)
+      /*d3.bin()
+          .value(d => d.date)
+          .thresholds(thresholdTime(20))
+          (data) for time*/
       Object.assign(data.slice(0, 3), { x0: 0, x1: 5 }),
       Object.assign(data.slice(100, 107), { x0: 5, x1: 10 }),
       Object.assign(data.slice(10, 18), { x0: 10, x1: 15 }),

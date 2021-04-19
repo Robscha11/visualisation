@@ -10,18 +10,29 @@ export function movieTable({ table, movies }) {
   // setup formatting functions that improve the readability of the runtime,
   // imdbRating, and imdbVotes
   // format the runtime in hours and minutes, for example 1:46 instead of 106
-  const ratingFormat = (d) => d; // one decimal place
-  const votesFormat = (d) => d; // choose a format that suits these large numbers
-  const runtimeFormat = (d) => d; // HH:MM as explained above
+  const ratingFormat = (d) => d3.format(".1f")(d); // one decimal place
+  const votesFormat = (d) => d3.format(".2s")(d); // choose a format that suits these large numbers
+  const runtimeFormat = (d) => d3.timeFormat("%H")(d); // HH:MM as explained above
+
+  //use d3 format
 
   // TODO: Task 2
   // setup color scales with adequate color schemes that determine the
   // background color of the respective cells; replace the dummy functions
   // below with your chosen color scale
-  const runtimeColor = (_) => "gray";
-  const ratingColor = (_) => "gray";
-  const votesColor = (_) => "gray";
-  const genresColor = (_) => "gray";
+  const runtimeColor = d3
+  .scaleLinear()
+  .domain(d3.extent(movies, d => d.runtime))
+  .range(["orange", "red"]);
+  const ratingColor = d3
+  .scaleSequential(d3.interpolateRdYlGn)
+  .domain(d3.extent(movies, d => d.imdbRating));
+  const votesColor = d3
+  .scaleSequential(d3.interpolateGreys)
+  .domain(d3.extent(movies, d => d.imdbVotes));
+  const genresColor = d3
+  .scaleOrdinal(d3.schemeSet1)
+  .domain(d3.extent(movies, d => d.votesColor));
 
   const columns = ["title", "countries", "length", "rating", "votes", "genres"];
 

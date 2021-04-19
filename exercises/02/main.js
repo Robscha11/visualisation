@@ -11,7 +11,7 @@ import answerTask1 from "./task1.md";
 const width = 1000;
 
 loadMoviesDataset().then((movies) => {
-  console.log(movies);
+  console.log( movies.filter(d => d.imdbVotes > 150000).sort(a => d3.descending(a.imdbRating)).slice(0,10));
 
   // display the markdown file with the answer to task 1
   d3.select("div#task1").html(marked(answerTask1));
@@ -21,7 +21,7 @@ loadMoviesDataset().then((movies) => {
   // and keep only the top-10 highest-rated movies in descending order by
   // imdbRating replace the dummy implementation below that simply holds the
   // last 10 movies
-  const topMovies = movies.slice(-10);
+  const topMovies = movies.filter(d => d.imdbVotes > 150000).sort((a,b) => d3.descending(a.imdbRating, b.imdbRating)).slice(0,10);
 
   movieTable({ table: d3.select("table#movies"), movies: topMovies });
 
