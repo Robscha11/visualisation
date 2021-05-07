@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="/index.css" />
+  <title>Exercise 1</title>
+
+  <style>
+    circle {
+      fill: rgb(201, 25, 25);
+    }
+
+    .boxplot {
+      stroke: black;
+    }
+  </style>
+
+</head>
+
+<body>
+  <main>
+    <h1><a href="/">Visualization Lab Class</a></h1>
+    <h2>Exercise 1</h2>
+
+    <section>
+      <h3>Introduction</h3>
+      <p>As you have seen in the lecture, data can come in many different forms: tables, networks, fields and so on.
+        In JavaScript, data is usually modelled as one or more arrays of objects with the same properties but different values.</p>
+      <p>In this excercise, we will work with artificial, tablular data and focus on basic techniques to create visualisations.
+        using Javascript and <a href="https://d3js.org/">d3.js</a>. </p>
+    </section>
+
+    <section>
+      <h3>Scales </h3>
+      <p>At the very core, implementing a visualization resolves to mapping data items to visual marks and channels.
+        The visualization library <a href="https://d3js.org/">d3.js</a> provides the module
+        <a href="https://github.com/d3/d3-scale/blob/master/README.md">d3-scale</a> to do just that. It includes scales 
+        for different input and output data types and different use cases. For this section, we will focus on the linear scale, that
+        will help you map the max, min, mean and standard deviation of a pool of datasets, that were already loaded for you in the 
+        <code>main.js</code> file, to visual elements in the visualization below. To detmine the stats of the input data, 
+        you should use the <a href="https://github.com/d3/d3-array#statistics">d3-array</a> module. 
+      </p>
+      <div class="task">
+        <h3>Task 1: Linear Scales (25%)</h3>
+        <p>Map the max and min values of the x attribute of the selected dataset to the start and end points of the line. Map the standard
+          deviation of the x attribute to the position and width of the rectangle and the mean of the x attribute to the position of the circle. Include a 
+          bottom axis using <a href="https://github.com/d3/d3-axis#axisBottom">d3-axis</a> to explain the mapping to the user. 
+          For this, complete the function <code>boxPlot</code> in the <code>boxPlot.js</code> file.</p>
+      </div>
+      Choose the dataset:
+      <select id="item"></select>
+      <svg id="singlebox"></svg>
+    </section>
+
+    <section>
+      <h3>Join pattern</h3>
+      <p>Now, we want to compare the dataset's stats directly with each other. Therefore, we need another dimension and display
+        all stat visualizations at once one below the other. Here again, <a href="https://github.com/d3/d3-scale/blob/master/README.md">d3-scale</a>
+        will provide you with a suitable scale to calculate the vertical position of each stat visualization.
+      </p>
+      <p>In the task before, we reacted to user interactions by removing and reattatching all SVG elements. This,
+        however, is computationally expensive and causes the browser to slow down quite a bit. Fortunately, 
+        d3 has a solution to that problem: The <a href="https://github.com/d3/d3-selection#joining-data">join pattern</a> 
+        allows you to specify graphical elements to be created, modified or deleted to match the given input data. </p>
+      
+        <div class="task">
+          <h3>Task 2: Join Pattern and Categorical Scales (40%)</h3>
+          <p>Create a visualization that shows the min, max, mean and standard deviation for all datasets at once. Use the join 
+            pattern to reuse the SVG elements when switching between attributes. For this, complete the function 
+            <code>boxPlots</code> in the <code>boxPlot.js</code> file.</p>
+        </div>
+        Choose the attribute for the x-axis: 
+        <select id="attribute"></select>
+        <svg id="barchart"></svg>
+    </section>
+
+    <section>
+      <h3>Scatterplot with Time Scale and Animation</h3>
+      <p>Time-based attributes need to be treated specially due to their unusual properties. Fortunately,
+        d3 provides support for mapping time-based data as well in the <a href="https://github.com/d3/d3-scale/blob/master/README.md">d3-scale</a>
+        module. Using these, we will have a look at how the datasets, we have created the stats visualizations
+      for, actually look like by creating a scatterplot from the <b>time</b> and <b>y</b> attributes of the datasets. </p>
+        <p>
+          We will again use the <a href="https://github.com/d3/d3-selection#joining-data">join pattern</a> to reuse 
+          the graphical elements on user interaction. To make things a little more interesting, the datapoints will 
+          be animated to transition from one state to the other using another d3 module called <a href="https://github.com/d3/d3-transition">d3-transition</a>.
+          In our case these transitions are simply a show case to learn how to animate the transition of an element 
+          from one state to the other. In cases, where each datapoint represents one specific item and is simply shown
+          in different contexts, animating transitions is neccessary to tell the user what is happening.
+        </p>
+        <div class="task">
+          <h3>Task 3: Time Scale and Animation (35%)</h3>
+          <p>Create a scatterplot of the time and y attribute of the user selected dataset. Use the join 
+            pattern and animate the transition between positions when another dataset is chosen.
+            For this, complete the function <code>scatterplot</code> in the <code>scatterplot.js</code> file.</p>
+        </div>
+        Choose the dataset: 
+        <select id="dataset">
+        </select>
+        <svg id="scatterplot"></svg>
+    </section>
+
+  </main>
+  <script type="module" src="/exercises/01/main.js"></script>
+</body>
+
+</html>

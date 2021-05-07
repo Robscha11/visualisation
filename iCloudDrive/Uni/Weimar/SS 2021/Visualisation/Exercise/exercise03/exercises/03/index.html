@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/index.css" />
+    <title>Exercise 3</title>
+
+    <style>
+        text {
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1><a href="/">Visualization Lab Class</a></h1>
+        <h2>Exercise 3</h2>
+
+        <section>
+            <h3>Inspecting Data with Parallel Coordinates</h3>
+            <p>As you have heared in the lecture, parallel coordinates are for  
+                analysing and exploring quantitative data. In a first step, you will 
+                have a look at the values and distribution of the data attributes 
+                <b>releaseDate</b>, <b>revenue : budget</b>,
+                <b>imdbRating</b> and <b>spokenLanguages</b> that will be discretized in 
+                the next task. 
+            </p>
+            <div class="task">
+                <h3>Task 0: Parallel Coordinates (10%)</h3>
+                <p>Visualize the attributes <b>releaseDate</b>, <b>revenue : budget</b>,
+                <b>imdbRating</b> and <b>spokenLanguages</b> from the 
+                <a href="/data/movies.csv"><span class="monospace">movies.csv</span></a>
+                as parallel coordinates.
+                For that complete the function <code>calculatePaths</code> in the 
+                <code>parallelcoordinates.js</code> file and examine the distributions of
+                and relations between the attributes in the visualization.</p>
+            </div>
+
+            <svg id="parallelcoordinates"></svg>
+
+        </section>
+
+        <section>
+            <h3>Discretizing Data</h3>
+            Sometimes it is necessary to find suitable transformations from ordered
+            to categorical data. Thereby, it is important to find meaningful categories 
+            such that the visualization will show meaningful information. The functions
+            <a href="https://github.com/d3/d3-scale/blob/master/README.md#threshold-scales">scaleThreshold</a>,
+            <a href="https://github.com/d3/d3-scale/blob/master/README.md#quantize-scales">scaleQuantize</a>,
+            and
+            <a href="https://github.com/d3/d3-scale/blob/master/README.md#quantile-scales">scaleQuantile</a>
+            will help you with it. Here is an <a href="https://observablehq.com/@d3/quantile-quantize-and-threshold-scales">Observable notebook</a> 
+            explaining all three.
+            <div class="task">
+                <h3>Task 1: Descretizing data (10%)</h3>
+                <p>Discretize the attributes <b>releaseDate</b>, <b>revenue : budget</b>,
+                <b>imdbRating</b> and <b>spokenLanguages</b> from the <a href="/data/movies.csv"><span class="monospace">movies.csv</span></a> into
+                the given (or your own, if they do not suit you, but please note that the labels will be
+                sorted alpha-numerically both within the parallel sets and the mosaic plot) 
+                categories and write a short explanation for your choice for each attribute 
+                as comment in the code. 
+                For that complete the function <code>discretize</code> in the 
+                <code>discretize.js</code> file and examine the result in the parallel sets 
+            visualization below. The order of attributes can be changed in the <code>main.js</code>. </p>
+            </div>
+
+            <svg id="parallelsets"></svg>
+        </section>
+
+        <section>
+            <h3>Slice and Dice Algorithm</h3>
+            <p>The readability of the parallel sets visualization suffers from the many
+            link overlaps, so another view without overlaps might be helpful. A good choice
+            for an alternative view would be the mosaic plot.</p>
+            <p>To create a mosaic plot view of the data in the parallel set visualization,
+            the data first has to be transformed with an algorithm called <b>Slice and Dice</b>.
+            </p>
+            <p>The algorithm builds on the attribute hierarchy already created for the parallel
+                sets in the <code>main.js</code> and is best explained via an image:</p>
+            <img src="/exercises/03/SliceAndDiceAlgorithm.png" alt="slice and dice algoritm">
+            <p>The slide is from this <a href="https://www.medien.ifi.lmu.de/lehre/ws1213/iv/uebung/ex6/slides_6.pdf">slide set about 
+            graphs and hierarchies</a>, since the algorithm is also used to create 
+            <a href="https://en.wikipedia.org/wiki/Treemapping">tree maps</a>.  </p>
+            <p>The attribute hierarchy has already been created for you from the attributes and 
+                attribute order given in the <code>main.js</code>. It contains a <a href="https://github.com/d3/d3-hierarchy/blob/master/README.md#hierarchy">d3-hierarchy</a>,
+                on top of which you can run your algorithm. These notebooks on 
+                 <a href="https://observablehq.com/@d3/d3-hierarchy">the functions of a d3-hierarchy</a> and 
+                 <a href="https://observablehq.com/@d3/visiting-a-d3-hierarchy">the traversal of a d3-hierarchy</a>
+                will help you accomplishing the task.
+            </p>
+            <p>A short disclaimer: The coloring of parallel sets and mosaic plot do not match! 
+                This is due to the convention in parallel sets of coloring by the first attribute
+                in the hierarchy, which would not add much information to a mosaic plot, since 
+                the first split is usually the most easy to see anyway. With mosaic plots, coloring 
+                by the second attribute increases the readability of the rows considerably. 
+                The additional opacity based on the third attribute within the hierarchy adds further 
+                visual clues.
+            </p>
+
+            <div class="task">
+                <h3>Task 2: Slice and Dice (50%)</h3>
+                <p>Construct the rectangles needed for a mosaic plot using the 
+                    slice and dice algorithm.  For this complete the 
+                    <code>sliceAndDice</code> function 
+                    in the <code>mosaicplot.js</code> file.
+                    For a reference as to how the rectangles
+                    should be represented, have a look at the dummy data used to 
+                    create the initial mosaic plot.</p>
+            </div>
+            <svg id="mosaicplot"></svg>
+        </section>
+
+        
+
+        <section>
+            <h3>Graph Analysis</h3>
+            Parallel sets and mosaic plots have boths their strengths and weaknesses. 
+            In our case, the mosaic plot gave the clearer layout due to the amount of
+            overlaps in the parallel sets visualization. Let us analyse the visualizations 
+            more closely.
+            <div class="task">
+                <h3>Task 3: what?-why?-how? (30%)</h3>
+                Compare the visualizations using the what?-why?-how? framework. See 
+                <a href="https://moodle.uni-weimar.de/mod/hvp/view.php?id=210570">the lecture</a>
+                at 1:48 for an example. Additionally, determine the visual marks and channels
+                used in each visualization.
+            </div>
+            <div>
+                <h3>Answer</h3>
+                <div id="whatwhyhow"></div>
+            </div>
+        </section>
+
+    </main>
+    <script type="module" src="/exercises/03/main.js"></script>
+</body>
+
+</html>
