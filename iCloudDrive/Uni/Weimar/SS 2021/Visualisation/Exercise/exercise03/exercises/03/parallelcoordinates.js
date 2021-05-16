@@ -106,13 +106,17 @@ function drawLine({datum, xScale, yScales}) {
     // TODO: Task 0: draw the line for the given data item
     // Set up the line generator to create the path 
   /* prepare a d3.line function */
-  
-  
-  const line = d3.line()
-  .x(d => d[0]) // define where to find the x coordinate in the given data item
-  .y(d => yScales.get(d)); // define where to find the y coordinate in the given data item
 
-  console.log(yScales.get(datum.imdbRating));
+  //const attributeName = datum[3][1];
+  const x1 = xScale(datum[0][0].toString());
+  const x2 = xScale(datum[1][0].toString());
+  const x3 = xScale(datum[2][0].toString());
+  const x4 = xScale(datum[3][0].toString());
 
-    return "M 0 0 L 40 20 L40 0 L60 20 L80 0 L1000 250";
+  const y1 = yScales.get(datum[0][0])(datum[0][1]).toString();
+  const y2 = yScales.get(datum[1][0])(datum[1][1]).toString();
+  const y3 = yScales.get(datum[2][0])(datum[2][1]).toString();
+  const y4 = yScales.get(datum[3][0])(datum[3][1]).toString();
+
+    return "M "+x1+" "+y1+" "+ "L " +x2+ " "+y2+" "+ "L "+x3+" "+y3+" "+ "L" +x4+" "+y4;
 }

@@ -14,7 +14,7 @@ d3.select("div#whatwhyhow").html(marked(whatwhyhow));
 
 // Load the movies dataset
 loadMoviesDataset().then((movies) => {
-  console.log(movies);
+  //console.log(movies);
   // visualize 4 quantitative attributes using the parallel 
   // coordinates
   parallelcoordinates({svg:d3.select("#parallelcoordinates"), 
@@ -38,7 +38,7 @@ loadMoviesDataset().then((movies) => {
   // from the attribute order, a hierarchy is created that 
   // splits the dataset into subsets of same attribute values
   const hierarchy = createHierarchy({data:setdata, attributeOrder: attributeOrder});
-  console.log(hierarchy); 
+  //console.log(hierarchy); 
   // the data you get here is of the form
   // {
   //  children: [array of children, they have the same form]
@@ -62,6 +62,7 @@ loadMoviesDataset().then((movies) => {
     { path: ["three", "two"], height: 0.4, width: 0.4, x:0.6, y:0.5, nrItems: 15},
     { path: ["three", "three"], height: 0.1, width: 0.4, x:0.6, y:0.9, nrItems: 15},
   ]
+   console.log(sampleRectangles);
   // apply the slice and dice algorithm
   const rectangles = sliceAndDice({hierarchy});
   // plotting the rectangles as mosaic plot

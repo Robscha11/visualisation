@@ -8,16 +8,21 @@ export function discretize(data) {
   // TODO: Task 1: define a scale to map performance (revenue - budget) to
   // the following categories and explain you choice shortly
   // Your explanation: 
-  const performanceCategories = ["negative", "none", "positive"];
-  const performanceScale = (_) => performanceCategories[Math.round(Math.random()*(performanceCategories.length-1))];
-
+  const performanceCategories = ["negative", "no", "positive"];
+  //console.log(performanceCategories);
+  //const performanceScale = (_) => performanceCategories[Math.round(Math.random()*(performanceCategories.length-1))];
+  const performanceScale = d3.scaleThreshold()
+  .domain([1000000, 10000000])
+  .range(performanceCategories);
   // TODO: Task 1: define a scale to map imdbRating to
   // the following categories and explain you choice shortly
   // Your explanation:
-  const ratingCategories = ["high", "higher", "superb"];
+  const ratingCategories = ["low", "medium", "high"];
   // Note: since the films have been chosen based on high rating the lowest
   // category was defined as high (you are free to choose your own categories) 
-  const ratingScale = (_) => ratingCategories[Math.round(Math.random()*(ratingCategories.length-1))];
+  const ratingScale = d3.scaleThreshold()
+  .domain([7, 8])
+  .range(ratingCategories);
 
   // TODO: Task 1: define a scale to map spokenLanguages to
   // the following categories and explain you choice shortly
@@ -25,10 +30,12 @@ export function discretize(data) {
   // international means more then one language
   // Your explanation:
   const internationality = ["local", "international"];
-  const interantionalityScale = (_) => internationality[Math.round(Math.random()*(internationality.length-1))];
+  const interantionalityScale = d3.scaleThreshold()
+  .domain([2, 2])
+  .range(internationality);
 
   // TODO: Task 1: define a scale to map releaseDate to
-  // the following categories and explain you choice shortly
+  // the following categories and explain your choice shortly
   // Your explanation:
   const yearCategories = [`${d3.min(data, d => d.releaseDate.getFullYear())} - 1950`, 
   "1950 - 2000", `2000 - ${d3.max(data, d => d.releaseDate.getFullYear())}`];

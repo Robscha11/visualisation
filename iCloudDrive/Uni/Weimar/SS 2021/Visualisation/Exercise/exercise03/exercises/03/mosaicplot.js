@@ -17,12 +17,66 @@ export function sliceAndDice({hierarchy}) {
   let rectangle = {x: 0, y: 0, width: 1, height: 1, path: [], nrItems: 0};
   hierarchy.rectangle = rectangle;
 
+  console.log(hierarchy);
+  
+  const names = [];
+  const path = [];
+  const depth1 = [];
+  const depth2 = [];
+  /*console.log(hierarchy.eachBefore(d=>names.push({depth:`${d.depth}`, name: `${d.data.name}`, nrItems:`${d.data.nrItems}`})));
+  
+  names.forEach(n => {
+    if (n.depth != 0) depth1.push(n);
+  });
+
+  hierarchy.eachBefore(n => {
+    if (n.depth != 0 && n.depth ==1) path.push(`${n.data.name}`);
+  });*/
+  /*var root =  d3.stratify()
+                .id(function(d) { return d.name; })   // Name of the entity (column name is name in csv)
+                .parentId(function(d) { return d.parent; })(hierarchy);   // Name of the parent (column name is parent in csv)
+  root.sum(function(d) { return +d.nrItems })   // Compute the numeric value for each entity*/
+
+  //hierarchy = d3.hierarchy(hierarchy)
+               // .sum((d) => d.nrItems)
+               // .sort((a,b) => b.nrItems - a.nrItems);
+ 
+  //var root = hierarchy.sum(a => a.nrItems).sort((a,b) => a.nrItems - b.nrItems);
+  //d3.treemap().size([500,500]).padding(1)(hierarchy);
+  let myHierarchy = (hierarchy.sum(a => a['nrItems']).sort((a,b) => a['nrItems'] - b['nrItems']));
+
+  let root = d3.treemap()
+    .tile(d3.treemapSliceDice)
+    .size([rectangle.width,rectangle.height])
+    
+    
+  
+    root(myHierarchy);
+  // root1.leaves().map((d) => d.x0, d.y0);
+  //console.log(hierarchy.each(d=>names.push({depth:`${d.depth}`, name: `${d.data.name}`, nrItems:`${d.data.nrItems}`})));
+  myHierarchy.leaves().map(a=>depth1.push(d3.map(a.ancestors(),d=>d.data.name!= undefined ? (d.data.name):null)));
+  depth1.forEach(v=>v.pop());
+  console.log(depth1)
+    
+  
+ //console.log(path)
+ myHierarchy.leaves().forEach((v,i)=>names.push({x:v.y0, y:v.x0, width:v.y1, height: v.x1, path: depth1[i], nrItems: v.data.nrItems}));
+  
+  rectangle = names
+  console.log(myHierarchy.leaves())
+  console.log(names)
+ // console.log(path);
+  //console.log(names);
+  //console.log(depth1.map(d=>({path: [d.name, d.nrItems]})));
+ 
   // TODO: Task 2: Implement the slice and dice algorithm to 
   // split the given rectangle according to the hierarchical 
   // subsets given in the variable hierarchy
-
+  //console.log(hierarchy.children[0].children[0]);
+  //console.log(hierarchy.children[0].children[0].copy().count().value);
+  //console.log(hierarchy.eachBefore(node => node.name));
   
-  return [rectangle];
+  return rectangle;
 }
 
 
